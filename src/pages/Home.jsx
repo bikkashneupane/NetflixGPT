@@ -3,18 +3,18 @@ import Browse from "./Browse";
 import Login from "./Login";
 import { RouterProvider } from "react-router-dom";
 
-const Home = () => {
-  const appRouter = createBrowserRouter([
-    {
-      path: "/",
-      element: <Login />,
-    },
-    {
-      path: "/browse",
-      element: <Browse />,
-    },
-  ]);
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/browse",
+    element: <Browse />,
+  },
+]);
 
+const Home = () => {
   return (
     <div>
       <RouterProvider router={appRouter} />
