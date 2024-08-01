@@ -1,6 +1,11 @@
 import { useRef, useState } from "react";
 import Header from "../layout/Header";
 import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignIn, setSignIn] = useState(true);
@@ -14,16 +19,45 @@ const Login = () => {
     setSignIn(!isSignIn);
   };
 
-  const handleButtonClick = (e) => {
+  const handleButtonClick = async (e) => {
     e.preventDefault();
+    const name = nameRef?.current?.value || null;
+    const email = emailRef?.current?.value;
+    const password = passwordRef?.current?.value;
 
     // Validate the form data
-    const validateMessage = checkValidData(
-      emailRef.current.value,
-      passwordRef.current.value
-    );
+    const validateMessage = checkValidData(email, password);
+    setErrMessage(validateMessage);
+    if (validateMessage) return;
 
-    validateMessage && setErrMessage(validateMessage);
+    // sign in/ sign up
+    if (!isSignIn) {
+      // signup login
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log(user);
+      } catch (error) {
+        const { code, message } = error;
+        console.log(code, message);
+      }
+    } else {
+      // sign in login
+      try {
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log(user);
+      } catch (error) {
+        const { code, message } = error;
+        console.log(code, "-", message);
+      }
+    }
   };
 
   return (
