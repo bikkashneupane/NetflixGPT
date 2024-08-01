@@ -1,25 +1,24 @@
-import { useEffect, useRef, useState } from "react";
-import Header from "../layout/Header";
+import { useRef, useState } from "react";
 import { checkValidData } from "../utils/validate";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import Header from "../layout/Header";
+import { useDispatch } from "react-redux";
+import { addUser } from "../feature/user/userSlice";
 
-const Login = () => {
+const Signup = () => {
   const [errMessage, setErrMessage] = useState(null);
-  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  useEffect(() => {
-    user?.uid && navigate("/browse");
-  }, [navigate, user]);
-
   const handleButtonClick = async (e) => {
     e.preventDefault();
+    const name = nameRef?.current?.value || null;
     const email = emailRef?.current?.value;
     const password = passwordRef?.current?.value;
 
@@ -28,14 +27,33 @@ const Login = () => {
     setErrMessage(validateMessage);
     if (validateMessage) return;
 
-    // sign in login
+    // signup logic
     try {
-      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log(user);
+
+      //update profile
+      updateProfile(user, {
+        displayName: name,
+        photoURL: `https://lh3.googleusercontent.com/ogw/AF2bZygaI_rIvFoQnESB0JkT6qdhWvZcEqpdbGrGFnYYRwtnVHA=s64-c-mo`,
+      })
+        .then(() => {
+          const { uid, email, displayName, photoURL } = auth.currentUser;
+          // Profile Updated
+          dispatch(addUser({ uid, email, displayName, photoURL }));
+          //navigate to login page
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       const { code, message } = error;
-      console.log(code, "-", message);
-      setErrMessage(message);
+      console.log(code, message);
     }
   };
 
@@ -55,7 +73,14 @@ const Login = () => {
           onSubmit={handleButtonClick}
           className="relative max-w-md h-[600px] px-12 mt-32 py-8 bg-black bg-opacity-60 text-white rounded-md shadow-lg flex flex-col gap-5 w-full"
         >
-          <h1 className="text-3xl font-bold py-4">Sign In </h1>
+          <h1 className="text-3xl font-bold py-4">Sign Up</h1>
+
+          <input
+            ref={nameRef}
+            type="text"
+            placeholder="Full Name"
+            className="w-full p-4 rounded bg-black bg-opacity-60 border-gray-500 border focus:outline-none focus:ring-2 focus:ring-white"
+          />
 
           <input
             ref={emailRef}
@@ -74,13 +99,13 @@ const Login = () => {
             <p className="px-1 text-red-700 font-bold">{errMessage}</p>
           )}
           <button className="w-full py-3 px-6 bg-red-700 rounded" type="submit">
-            Sign In
+            Sign Up
           </button>
 
           <p className="px-1">
-            <span className="text-gray-400">New to Netlix? </span>
-            <Link to={"/signup"} className="cursor-pointer hover:underline">
-              Sign up now.
+            <span className="text-gray-400">Already have an account? </span>
+            <Link to={"/"} className="cursor-pointer hover:underline">
+              Login now.
             </Link>
           </p>
         </form>
@@ -89,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
