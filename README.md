@@ -13,6 +13,9 @@
 - Create Signup User Account
 - Implement Sign In User API
 - Created Redux Store w/ userSlice
+- Implemened Logout
+- Update Profile
+- TMDB API Integrated
 
 # Features
 
@@ -29,3 +32,9 @@
 - NetflixGPT
   - Search Bar
   - Movie Suggestions
+
+# Firebase
+
+- onAuthStateChanged
+- signout(auth)
+- signInWithEmailAndPassword(auth, email, password)

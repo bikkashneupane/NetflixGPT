@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Browse from "./pages/Browse";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -28,7 +28,7 @@ function App() {
 
   // onAuthStateChanged => firebase
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // user is signed in
         const { uid, email, displayName, photoURL } = user;
@@ -38,6 +38,8 @@ function App() {
         dispatch(removeUser());
       }
     });
+
+    return () => unsubscribe;
   }, [dispatch]);
 
   return (

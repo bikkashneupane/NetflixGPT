@@ -2,20 +2,16 @@ import { useSelector } from "react-redux";
 import netflix_profile from "../assets/images/netflix_profile.png";
 import { signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
   const handleSignout = () => {
-    signOut(auth)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      signOut(auth);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

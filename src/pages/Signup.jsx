@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
 import { useDispatch } from "react-redux";
 import { addUser } from "../feature/user/userSlice";
+import { LOGO_URL, PHOTO_URL } from "../utils/constants";
 
 const Signup = () => {
   const [errMessage, setErrMessage] = useState(null);
@@ -39,7 +40,7 @@ const Signup = () => {
       //update profile
       updateProfile(user, {
         displayName: name,
-        photoURL: `https://lh3.googleusercontent.com/ogw/AF2bZygaI_rIvFoQnESB0JkT6qdhWvZcEqpdbGrGFnYYRwtnVHA=s64-c-mo`,
+        photoURL: PHOTO_URL,
       })
         .then(() => {
           const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -60,8 +61,7 @@ const Signup = () => {
   return (
     <div
       style={{
-        background:
-          "url('https://assets.nflxext.com/ffe/siteui/vlv3/1fd8c6d0-20db-4667-860e-dd1ad7353ac0/f2fe4463-6b37-4e82-93e5-843b55351424/AU-en-20240624-popsignuptwoweeks-perspective_alpha_website_medium.jpg')",
+        background: `url(${LOGO_URL})`,
       }}
     >
       <Header />

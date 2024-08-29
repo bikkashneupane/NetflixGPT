@@ -5,12 +5,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { LOGO_URL } from "../utils/constants";
 
 const Login = () => {
   const [errMessage, setErrMessage] = useState(null);
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -42,8 +42,7 @@ const Login = () => {
   return (
     <div
       style={{
-        background:
-          "url('https://assets.nflxext.com/ffe/siteui/vlv3/1fd8c6d0-20db-4667-860e-dd1ad7353ac0/f2fe4463-6b37-4e82-93e5-843b55351424/AU-en-20240624-popsignuptwoweeks-perspective_alpha_website_medium.jpg')",
+        background: `url(${LOGO_URL})`,
       }}
     >
       <Header />
