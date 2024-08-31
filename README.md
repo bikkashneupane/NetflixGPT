@@ -15,7 +15,14 @@
 - Created Redux Store w/ userSlice
 - Implemened Logout
 - Update Profile
+- Unsubscribe to the onAuthStateChanged callback
 - TMDB API Integrated
+- Fetch Now Playing Movies from TMDB
+- Custom Hook for now playing component
+- Fetch Trailer Video/ Update Store
+- Custom Hook for movie trailer component
+- Embedded the Youtube Video/ Autoplay / Mute / vq=1080
+- Tailwind for iframe from youtube embedded
 
 # Features
 

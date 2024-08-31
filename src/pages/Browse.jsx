@@ -1,12 +1,16 @@
-import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import Header from "../layout/Header";
+import MainContainer from "../component/MainContainer";
+import SecondaryContainer from "../component/SecondaryContainer";
+import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 
 const Browse = () => {
   useNowPlayingMovies();
+
   return (
     <div className="min-h-screen w-full">
       <Header />
-      <div className="pt-24">browse</div>
+      <MainContainer />
+      <SecondaryContainer />
     </div>
   );
 };

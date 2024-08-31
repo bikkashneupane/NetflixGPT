@@ -1,12 +1,13 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { addUser, removeUser } from "./feature/user/userSlice";
+
 import Browse from "./pages/Browse";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { addUser, removeUser } from "./feature/user/userSlice";
 import { auth } from "./utils/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const appRouter = createBrowserRouter([
   {

@@ -1,8 +1,10 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
+import { API_OPTIONS } from "../utils/constants";
 import { addNowPlayingMovies } from "../feature/movie/movieSlice";
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const useNowPlayingMovies = () => {
   const navigate = useNavigate();
@@ -16,11 +18,14 @@ const useNowPlayingMovies = () => {
 
     const fetchMovies = async () => {
       try {
-        const endPoint = `https://api.themoviedb.org/3/movie/now_playing?api_key=${
-          import.meta.env.VITE_TMDB_API_KEY
-        }&language=en-US&page=1`;
-        const response = await axios.get(endPoint);
-        dispatch(addNowPlayingMovies(response.data.results));
+        const response = await fetch(
+          "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+          API_OPTIONS
+        );
+
+        const data = await response.json();
+
+        dispatch(addNowPlayingMovies(data.results));
       } catch (error) {
         console.log(error);
       }
